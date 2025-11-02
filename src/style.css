@@ -158,7 +158,8 @@ body {
 .tech-tag.primary {
     /* Estilo para destacar lenguajes clave */
     background-color: var(--primary-color);
-    color: white;
+    color: var(--background-light);
+    font-weight: bold;
     border: 1px solid var(--primary-color);
 }
 
