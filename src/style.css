@@ -79,11 +79,8 @@ body {
     align-items: center;
 }
 
-.logo {
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white; /* Asegura que el logo se vea en el header oscuro */
+.logo img{
+    height: 75px;
 }
 
 .nav a {
