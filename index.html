@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desarrollador</title>
+    <link rel="icon" type="image/png" href="/portfolio/logo.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/portfolio/assets/index-C92CXuI6.js"></script>
+  <link rel="stylesheet" crossorigin href="/portfolio/assets/index-BY_T8x4I.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a class="logo" href="#">
+                <img src="logo.png" alt="Tu foto de perfil"> 
+            </a>
+            <nav class="nav">
+                <a href="#about">Sobre Mí</a>
+                <a href="#skills">skills</a>
+                <a href="#projects">Proyectos</a>
+                <a href="#contact">Contacto</a>
+                <button id="theme-toggle" class="button-toggle">Modo Oscuro 🌙</button>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Guido do Rego</h1>
+                <h2 class="hero-title">Desarrollador Full-Stack</h2>
+
+                <p class="hero-subtitle">
+                    Sé programar en Python desde el 2019, poseo conocimientos en múltiples áreas de la informática, especializado en el back-end.
+                    <br>
+                    También poseo conocimientos en contenedores, front-end, testing, aws, entre otras cosas.
+                    <br>
+                    Desde chico soy aficionado a la tecnología y por esto es que estoy aprendiendo constantemente forma autodidacta.
+                    <br>
+                </p>
+                
+                <div class="main-tools">
+                    <span class="tech-tag primary">Python</span>
+                    <span class="tech-tag primary">Go</span>
+                    <span class="tech-tag primary">JavaScript</span>
+                    <span class="tech-tag primary">Docker</span>
+                    <span class="tech-tag primary">AWS</span>
+                </div>
+
+                <a href="#projects" class="button">Ver Proyectos</a>
+            </div>
+            <img src="avatar.jpeg" alt="Tu foto de perfil" class="profile-img"> 
+        </div>
+    </section>
+    
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <h2>🛠️ Tengo experiencia usando</h2>
+            <div class="skills-container">
+
+                <div class="skill-group">
+                    <h3>Frameworks y Librerías</h3>
+                    <div class="tech-group">
+                        <span class="tech-tag secondary">Django (Python)</span>
+                        <span class="tech-tag secondary">FastAPI (Python)</span>
+                        <span class="tech-tag secondary">Gorilla (Go)</span>
+                        <span class="tech-tag secondary">React (JS)</span>
+                        <span class="tech-tag secondary">jQuery (JS)</span>
+                        <span class="tech-tag secondary">HTML</span>
+                        <span class="tech-tag secondary">CSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Bases de Datos</h3>
+                    <div class="tech-group">
+                        <span class="tech-tag secondary">PostgreSQL</span>
+                        <span class="tech-tag secondary">DynamoDB (NoSQL)</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>DevOps y Herramientas</h3>
+                    <div class="tech-group">
+                        <span class="tech-tag secondary">Docker</span>
+                        <span class="tech-tag secondary">AWS</span>
+                        <span class="tech-tag secondary">Gitlab CI/CD</span>
+                        <span class="tech-tag secondary">Git & GitHub</span>
+                        <span class="tech-tag secondary">Nginx</span>
+                        <span class="tech-tag secondary">Jenkins</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Testing</h3>
+                    <div class="tech-group">
+                        <span class="tech-tag secondary">PyTest (Python)</span>
+                        <span class="tech-tag secondary">Selenium (Python)</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Lenguajes</h3>
+                    <div class="tech-group">
+                        <span class="tech-tag secondary">Python</span>
+                        <span class="tech-tag secondary">Go</span>
+                        <span class="tech-tag secondary">JavaScript</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>💻 Proyectos públicos</h2>
+            <div class="project-grid">
+                
+                <div class="project-card">
+                    <h3>API REST de productos con autenticación de token y estructura de datos personalizada (Django REST-framework)</h3>
+                    <p>
+                        Desarrollo de APIs RESTful personalizadas para la gestión de productos y categorías. 
+                        Este proyecto se centró en la creación de un servicio backend seguro que gestiona el 
+                        control de acceso basado en roles, lo que lo convierte en una excelente demostración de 
+                        los fundamentos del desarrollo de API.
+                    </p>
+                    <p class="tech-stack"><b>Tecnologías:</b> django-rest-framework, <b>Python</b></p>
+                    <a href="https://github.com/GuidoGdR/products_API" target="_blank" class="project-link">Ver Código</a>
+                    <!--
+                    <a href="#" target="_blank" class="project-link demo">Ver fotos</a>
+                    -->
+                </div>
+
+                <div class="project-card">
+                    <h3>Blog personal</h3>
+                    <p>
+                        Este es un blog dinámico y totalmente responsivo para desarrolladores full-stack, basado en el robusto framework Django. La aplicación sirve como plataforma central para la autopromoción y la creación de contenido, demostrando competencia en la gestión de datos backend, el manejo seguro de formularios y diseño frontend.
+                        <br>
+                        Toda la pila de aplicaciones está en contenedores con Docker y Docker Compose para garantizar un entorno de desarrollo consistente y reproducible. La configuración incluye configuraciones independientes y optimizadas para simular entornos de producción, lo que facilita una implementación rápida.
+                    </p>
+                    <p class="tech-stack"><b>Tecnologías:</b> django, HTML, CSS, <b>Python</b></p>
+                    <a href="https://github.com/GuidoGdR/products_API" target="_blank" class="project-link">Ver Código</a>
+                    <!--
+                    <a href="#" target="_blank" class="project-link demo">Ver fotos</a>
+                    -->
+                </div>
+
+                <div class="project-card">
+                    <h3>Ta-Te-Ti</h3>
+                    <p>
+                        Esta es una aplicación web interactiva y totalmente funcional de tres en raya, creada íntegramente con React.js. Se desarrolló como un proyecto de prueba de concepto para consolidar la comprensión de los fundamentos de React y la arquitectura basada en componentes.
+                    </p>
+                    <p class="tech-stack"><b>Tecnologías:</b> HTML, CSS, <b>React</b></p>
+                    <a href="https://github.com/GuidoGdR/TicTacToe" target="_blank" class="project-link">Ver Código</a>
+                    <!--
+                    <a href="#" target="_blank" class="project-link demo">Ver fotos</a>
+                    -->
+                </div>
+
+                <div class="project-card">
+                    <h3>Menú online de Cocina sin Frontera</h3>
+                    <p>
+                        Desarrollo de un menú digital para el restaurante "Cocina sin Frontera". El objetivo fue añadir un menú en formato web optimizado para ampliar su alcance y llegar a un público más amplio.
+                    </p>
+                    <p class="tech-stack"><b>Tecnologías:</b> Firebase, HTML, CSS, <b>JavaScript</b></p>
+                    <a href="https://github.com/GuidoGdR/CocinaSinFrontera" target="_blank" class="project-link">Ver Código</a>
+                    <!--
+                    https://cocina-sin-frontera.web.app/
+                    <a href="#" target="_blank" class="project-link demo">Ver fotos</a>
+                    -->
+                </div>
+
+                <div class="project-card">
+                    <h3>Sistema de Gestión de Alumnos</h3>
+                    <p>
+                        SGA (Sistema de Gestión de Alumnos) es una aplicación de escritorio diseñada para optimizar la administración, la calificación y la generación de informes de datos académicos. Esta solución proporciona a docentes y administradores una herramienta centralizada para gestionar eficientemente los expedientes de los estudiantes, calcular promedios, definir políticas académicas y generar informes analíticos esenciales.
+                        <br><br>
+                        🎓 Esta aplicación se desarrolló como un proyecto académico.
+                    </p>
+                    <p class="tech-stack"><b>Tecnologías:</b> Tkinter, <b>Python</b></p>
+                    <a href="https://github.com/GuidoGdR/SGA" target="_blank" class="project-link">Ver Código</a>
+                    <!--
+                    https://cocina-sin-frontera.web.app/
+                    <a href="#" target="_blank" class="project-link demo">Ver fotos</a>
+                    -->
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>✉️ Contacto</h2>
+            <p>Estoy disponible para nuevos proyectos y oportunidades. Conéctate conmigo mediante:</p>
+            <div class="contact-links">
+                <a href="mailto:guidodorego@gmail.com" class="contact-button">Email</a>
+                <a href="https://linkedin.com/in/guido-do-rego" target="_blank" class="contact-button">LinkedIn</a>
+                <a href="https://github.com/GuidoGdR" target="_blank" class="contact-button">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Guido do Rego.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
