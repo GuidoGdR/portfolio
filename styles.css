@@ -130,6 +130,46 @@ body {
     opacity: 0.8;
 }
 
+.main-tools {
+    /* Contenedor del Stack */
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 15px;
+    border-left: 4px solid var(--primary-color);
+    background-color: var(--background-light); 
+    border-radius: 5px;
+}
+
+.main-tools h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
+.tech-tag {
+    /* Estilo base para las etiquetas de tecnología */
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 4px 8px 4px 0; /* Espacio entre tags */
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tech-tag.primary {
+    /* Estilo para destacar lenguajes clave */
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+/* Ajuste del botón principal para que no se pegue al stack */
+.hero-content .button {
+    margin-top: 15px;
+}
+
 .profile-img {
     width: 200px;
     height: 200px;
