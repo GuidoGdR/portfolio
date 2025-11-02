@@ -195,6 +195,69 @@ body {
     background-color: var(--intermediate-color);
 }
 
+
+/* --- sección Experiencia en --- */
+
+.skills-section {
+    padding: 60px 0;
+    text-align: center;
+    background-color: var(--background-light); /* Para que alterne con la sección Hero */
+}
+
+.skills-section h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: var(--text-color);
+}
+
+.skills-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex; /* Usamos flexbox para organizar los grupos */
+    flex-wrap: wrap; /* Permite que los grupos salten de línea en móvil */
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.skill-group {
+    flex: 1 1 300px; /* Hace que los grupos tomen un tercio del ancho, o todo en móvil */
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.skill-group h3 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Reutilizamos el estilo tech-tag del bloque anterior, pero con un estilo secundario */
+.tech-tag.secondary {
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+/* Modo oscuro para los tags secundarios */
+
+/* Media Query para responsividad en la sección de Skills (en pantallas pequeñas, se apilan) */
+@media (max-width: 768px) {
+    .skills-container {
+        flex-direction: column;
+    }
+
+    .skill-group {
+        flex: 1 1 100%; /* Ocupa todo el ancho disponible */
+    }
+}
+
 /* Sección de Proyectos */
 .projects {
     padding: 60px 0;
