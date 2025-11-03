@@ -87,6 +87,7 @@ body {
 }
 
 .logo, .logo img{
+    z-index: 2;
     height: 75px;
 }
 
@@ -112,7 +113,6 @@ body {
     height: 3px;
     margin: 5px auto;
     background-color: var(--primary-color); 
-    transition: all 0.3s ease-in-out;
 }
 
 .menu-checkbox + .menu-toggle-button .bar:nth-child(1) {
@@ -123,23 +123,23 @@ body {
 }
 
 .menu-checkbox:checked + .menu-toggle-button .bar:nth-child(1) {    
-    transform: translateX(4px) rotate(-45deg);
+    transform:  translateY(225px) translateX(4px) rotate(-45deg);
 }
 .menu-checkbox:checked + .menu-toggle-button .bar:nth-child(2) {
-    transform: translateX(-4px) rotate(45deg);
+    transform:   translateY(225px) translateX(-4px) rotate(45deg);
 }
 
-.menu-checkbox:checked + .menu-toggle-button{
-    top: 305px;
-}
 
 .menu-checkbox:checked + .menu-toggle-button + .nav {
-    height: auto;
-    padding-bottom: 5px;
+    height: 225px;
 }
 
 .header > .nav{
     overflow: hidden;
+}
+
+.menu-toggle-button .bar, .nav{
+    transition: all 1s;
 }
 
 .nav{
@@ -148,8 +148,8 @@ body {
     justify-content: center;
     align-content: center;
     gap: 10px;
-    height: 0px;
     overflow: hidden;
+    height: 0px;
 }
 
 .nav > button{
@@ -493,7 +493,7 @@ body {
         display: none;
     }
     .header .nav{
-        height: auto;
+        height: auto !important;
     }
     
     .header{
