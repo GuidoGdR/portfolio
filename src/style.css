@@ -64,34 +64,110 @@ body {
 
 /* Header y Navegación */
 .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 35px;
+
     background-color: var(--background-dark);
     color: white;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .header .container {
+    padding: 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.logo img{
+.logo, .logo img{
     height: 75px;
+}
+
+/* show/unshow menu */
+.menu-checkbox {
+    display: none;
+}
+
+.menu-toggle-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 4px 0px;
+    position: absolute;
+    top: 80px;
+
+    cursor: pointer;
+}
+.menu-toggle-button .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--primary-color); 
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-checkbox + .menu-toggle-button .bar:nth-child(1) {
+    transform: translateX(4px) rotate(45deg);
+}
+.menu-checkbox + .menu-toggle-button .bar:nth-child(2) {
+    transform: translateX(-4px) rotate(-45deg);
+}
+
+.menu-checkbox:checked + .menu-toggle-button .bar:nth-child(1) {    
+    transform: translateX(4px) rotate(-45deg);
+}
+.menu-checkbox:checked + .menu-toggle-button .bar:nth-child(2) {
+    transform: translateX(-4px) rotate(45deg);
+}
+
+.menu-checkbox:checked + .menu-toggle-button{
+    top: 305px;
+}
+
+.menu-checkbox:checked + .menu-toggle-button + .nav {
+    height: auto;
+    padding-bottom: 5px;
+}
+
+.header > .nav{
+    overflow: hidden;
+}
+
+.nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    height: 0px;
+    overflow: hidden;
+}
+
+.nav > button{
+    margin: 0px;
+    font-weight: bold;
 }
 
 .nav a {
     color: white;
     text-decoration: none;
-    margin-left: 20px;
     padding: 5px 10px;
     transition: color 0.3s;
 }
 
 .nav a:hover {
     color: var(--primary-color);
+    transform: scale(1.1);
+    transition: all 200ms;
 }
 
 /* Sección Hero (Sobre Mí) */
@@ -376,16 +452,6 @@ body {
         text-align: center;
     }
 
-    .nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .nav a {
-        margin: 5px 0;
-    }
-
     .button-toggle {
         margin-left: 0;
         margin-top: 10px;
@@ -420,3 +486,29 @@ body {
     }
 }
 
+
+/* Header */
+@media (min-width: 769px){
+    .menu-toggle-button{
+        display: none;
+    }
+    .header .nav{
+        height: auto;
+    }
+    
+    .header{
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px 0px;
+    }
+    
+    .header .logo{  
+        position: relative;
+        right: 5px;
+        padding: 0px 5px;
+    }
+
+    .header .nav{
+        flex-direction: row;
+    }
+}
