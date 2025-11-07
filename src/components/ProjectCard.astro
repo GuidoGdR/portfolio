@@ -1,12 +1,15 @@
 ---
+import Slider from "./Slider.astro";
+import type CustomImageMetadata from "../types/CustomImageMetadata";
 import type { RenderResult } from "astro:content";
 interface Props {
     title: string
     description: Promise<RenderResult>
+    images?: Promise<CustomImageMetadata>[] | CustomImageMetadata[]
     tecnologies: {normal:string[], important: string[]}
     repoUrl: string
 }
-const { title, description, tecnologies, repoUrl } = Astro.props as Props;
+const { title, description, images, tecnologies, repoUrl } = Astro.props as Props;
 
 const { Content: Description } = await description
 
@@ -16,8 +19,11 @@ const { Content: Description } = await description
     <section>
 
         <h3>{title}</h3>
-        <Description />
+        <Description /> 
 
+        { images?
+            <Slider images={images}></Slider> 
+        : ''}
     </section>
  
     <section>
@@ -27,6 +33,9 @@ const { Content: Description } = await description
             <a href={repoUrl} target="_blank" class="project-link">Ver Código</a>
         </section>
     </section>
+    <!--
+    <a href="#" target="_blank" class="project-link demo">Ver fotos</a>
+    -->
 </div>
 
 

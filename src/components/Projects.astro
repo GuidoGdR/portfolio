@@ -2,8 +2,53 @@
 import { getCollection } from "astro:content";
 import ProjectCard from "./ProjectCard.astro";
 import { type ImageMetadata } from 'astro';
+import type CustomImageMetadata from '../types/CustomImageMetadata';
 
 const projects = await getCollection('projects')
+
+function getPorjectsImgaes(){
+    
+    // 💡 CAMBIO CLAVE: Usa un patrón más amplio para que Vite/Astro pueda encontrar todas las imágenes.
+    // El '*' en la carpeta representa CUALQUIER nombre de carpeta/slug de proyecto.
+    const allProjectsImages = import.meta.glob<{default:ImageMetadata}>( '../assets/projects/*/*.{png,jpg,jpeg,gif,webp}'); 
+
+    const result: {[key:string]: Promise<CustomImageMetadata>[]} = {}
+    
+    projects.forEach((project => {
+        const projectImages: Promise<CustomImageMetadata>[] = [];
+        
+        // El patrón para encontrar las imágenes del proyecto específico
+        // Asegúrate de que los slashes sean correctos para la comparación de claves.
+        const reg_exp = new RegExp(`^\\.\\.\\/assets\\/projects\\/${project.slug}\\/[^\\/]+\\.(png|jpg|jpeg|gif|webp)$`); 
+        
+        // Itera sobre las claves (rutas) que Vite/Astro encontró.
+        for(const key in allProjectsImages) {
+            if( reg_exp.test(key) ){
+                // Esta función importada dinámicamente retorna una PROMESA de ImageMetadata
+                const imageImportPromise = allProjectsImages[key]().then(module => {
+
+                    const start = module.default.src.lastIndexOf('/') + 1
+                    let end = module.default.src.indexOf('?')
+                    let text = module.default.src.slice(start, end)
+                    end = text.indexOf('.')
+                    text = text.slice(0, end)
+                    text = text.replaceAll('_', ' ')
+                    text = text.replaceAll('-', ' - ')
+
+                    return {...module.default, alt: text}
+                });
+                projectImages.push(imageImportPromise)
+            }
+        }
+        
+        if (projectImages.length > 0) {
+            result[project.slug] = projectImages;
+        }
+    }));
+    return result
+};
+
+const projectsImages = getPorjectsImgaes();
 
 ---
 <section id="projects" class="projects">
@@ -13,7 +58,7 @@ const projects = await getCollection('projects')
             {
                 projects.map((project)=>{
                     const data = project.data;
-                    return <ProjectCard title={data.title}
+                    return <ProjectCard title={data.title} images={projectsImages[project.slug] }
                         tecnologies={data.tecnologies} 
                         description={project.render()}
                         repoUrl={data.repoUrl}/>
