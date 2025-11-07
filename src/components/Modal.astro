@@ -1,0 +1,58 @@
+---
+
+---
+
+
+<div id="main-modal" class="hidden">
+    <section id="main-modal-content">
+
+    </section>
+</div>
+
+<style>
+
+    #main-modal{
+        z-index: 1;
+        position: fixed;
+        top: 0px;
+        cursor: pointer;
+        
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color:rgb(33, 37, 41, 0.66); 
+    }
+
+    #main-modal-content{
+        cursor: default;
+        max-width: 80vw;
+        max-height: 80vh;
+    }
+</style>
+
+<script>
+
+    const modal = document.getElementById('main-modal');
+    let modalContent = document.getElementById('main-modal-content');
+    
+    if ( modal && modalContent ){
+        modalContent.onclick = (event) => event.stopPropagation();
+        
+        const ClearModalContent = modalContent.cloneNode(true);
+        
+        modal.onclick = () => {
+            if ( modal.firstElementChild ){
+
+                modal.classList.add('hidden');
+                
+                const newModalContent = ClearModalContent.cloneNode(true);
+                newModalContent.addEventListener('click', (event) => event.stopPropagation());
+
+                modal.replaceChild(newModalContent, modal.firstElementChild);
+            };
+        };
+    };
+
+</script>
