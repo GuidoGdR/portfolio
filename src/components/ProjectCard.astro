@@ -1,0 +1,87 @@
+---
+import type { RenderResult } from "astro:content";
+interface Props {
+    title: string
+    description: Promise<RenderResult>
+    tecnologies: {normal:string[], important: string[]}
+    repoUrl: string
+}
+const { title, description, tecnologies, repoUrl } = Astro.props as Props;
+
+const { Content: Description } = await description
+
+---
+
+<div class="project-card">
+    <section>
+
+        <h3>{title}</h3>
+        <Description />
+
+    </section>
+ 
+    <section>
+        <p class="tech-stack"><b>Tecnologías:</b> {tecnologies.normal} <b>{tecnologies.important}</b></p>
+
+        <section>
+            <a href={repoUrl} target="_blank" class="project-link">Ver Código</a>
+        </section>
+    </section>
+</div>
+
+
+<style>
+    
+    .project-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: var(--secondary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 25px;
+        text-align: left;
+        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    }
+
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .project-card h3 {
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .project-card p {
+        margin-bottom: 15px;
+    }
+
+    .tech-stack {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        opacity: 0.7;
+        margin-bottom: 15px;
+    }
+
+    .project-link {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: var(--background-dark);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 0.9rem;
+    }
+
+    .project-link.demo {
+        background-color: var(--primary-color);
+    }
+
+    .project-link:hover {
+        opacity: 0.8;
+    }
+
+</style>

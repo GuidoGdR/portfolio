@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import ProjectCard from "./ProjectCard.astro";
+import { type ImageMetadata } from 'astro';
+
+const projects = await getCollection('projects')
+
+---
+<section id="projects" class="projects">
+    <div class="container">
+        <h2>💻 Proyectos públicos</h2>
+        <div class="cards-wrapper">
+            {
+                projects.map((project)=>{
+                    const data = project.data;
+                    return <ProjectCard title={data.title}
+                        tecnologies={data.tecnologies} 
+                        description={project.render()}
+                        repoUrl={data.repoUrl}/>
+                })
+            }
+            
+        </div>
+    </div>
+</section>
+
+<style>
+
+    .projects {
+        padding: 60px 0;
+        text-align: center;
+        background-color: var(--background-light);
+    }
+
+    .projects h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        color: var(--text-color);
+    }
+
+    .cards-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+</style>

@@ -1,0 +1,101 @@
+---
+---
+
+<section id="skills" class="skills-section">
+    <div class="container">
+        <h2>🛠️ Tengo experiencia usando</h2>
+        <div class="skills-container">
+
+            <div class="skill-group">
+                <h3>Frameworks y Librerías</h3>
+                <div class="tech-group">
+                    <span class="tech-tag secondary">Django (Python)</span>
+                    <span class="tech-tag secondary">FastAPI (Python)</span>
+                    <span class="tech-tag secondary">Gorilla (Go)</span>
+                    <span class="tech-tag secondary">React (JS)</span>
+                    <span class="tech-tag secondary">jQuery (JS)</span>
+                    <span class="tech-tag secondary">HTML</span>
+                    <span class="tech-tag secondary">CSS</span>
+                </div>
+            </div>
+
+            <div class="skill-group">
+                <h3>Bases de Datos</h3>
+                <div class="tech-group">
+                    <span class="tech-tag secondary">PostgreSQL</span>
+                    <span class="tech-tag secondary">DynamoDB (NoSQL)</span>
+                </div>
+            </div>
+
+            <div class="skill-group">
+                <h3>DevOps y Herramientas</h3>
+                <div class="tech-group">
+                    <span class="tech-tag secondary">Docker</span>
+                    <span class="tech-tag secondary">AWS</span>
+                    <span class="tech-tag secondary">Gitlab CI/CD</span>
+                    <span class="tech-tag secondary">Git & GitHub</span>
+                    <span class="tech-tag secondary">Nginx</span>
+                    <span class="tech-tag secondary">Jenkins</span>
+                </div>
+            </div>
+
+            <div class="skill-group">
+                <h3>Testing</h3>
+                <div class="tech-group">
+                    <span class="tech-tag secondary">PyTest (Python)</span>
+                    <span class="tech-tag secondary">Selenium (Python)</span>
+                </div>
+            </div>
+
+            <div class="skill-group">
+                <h3>Lenguajes</h3>
+                <div class="tech-group">
+                    <span class="tech-tag secondary">Python</span>
+                    <span class="tech-tag secondary">Go</span>
+                    <span class="tech-tag secondary">JavaScript</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .skills-section {
+        padding: 60px 0;
+        text-align: center;
+        background-color: var(--background-light); /* Para que alterne con la sección Hero */
+    }
+
+    .skills-section h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        color: var(--text-color);
+    }
+
+    .skills-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex; /* Usamos flexbox para organizar los grupos */
+        flex-wrap: wrap; /* Permite que los grupos salten de línea en móvil */
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .skill-group {
+        flex: 1 1 300px; /* Hace que los grupos tomen un tercio del ancho, o todo en móvil */
+        padding: 20px;
+        background-color: var(--secondary-color);
+        border-radius: 8px;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .skill-group h3 {
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+</style>

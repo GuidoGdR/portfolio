@@ -1,0 +1,95 @@
+---
+---
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Desarrollador</title>
+		<link rel="icon" type="image/png" href="/logo.png" />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+		<meta name="generator" content={Astro.generator} />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	:root {
+		--primary-color-op2: rgb(0, 128, 0, 0.2); /* Azul vibrante (botones/links) */
+		--primary-color: rgb(0, 128, 0); /* Azul vibrante (botones/links) */
+		--intermediate-color: rgb(0, 191, 0);
+		--secondary-color: #f8f9fa; /* Fondo claro (tarjetas) */
+		--text-color: #343a40; /* Texto oscuro */
+		--background-light: #ffffff; /* Fondo principal claro */
+		--background-dark: #212529; /* Fondo oscuro (header/footer) */
+		--light-gray: #e9ecef; /* Separadores */
+		--border-color: #dee2e6;
+		
+	}
+
+	/* Modo Oscuro - Se aplica cuando el <html> tiene el atributo data-theme="dark" */
+	html[data-theme="dark"] {
+		--primary-color-op2: rgb(0, 255, 0, 0.2); /* Azul vibrante (botones/links) */
+		--primary-color: rgb(0, 255, 0); /* Azul más claro para visibilidad en oscuro */
+		--secondary-color: #2c313a; /* Fondo oscuro para tarjetas */
+		--text-color: #e9ecef; /* Texto claro */
+		--background-light: #121212; /* Fondo principal muy oscuro */
+		--background-dark: #1f1f1f; /* Header/Footer */
+		--light-gray: #343a40; /* Separadores */
+		--border-color: #495057;
+	}
+
+	/* Estilos Globales y Tipografía */
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		font-family: 'Roboto', sans-serif;
+		color: var(--text-color);
+		line-height: 1.6;
+		background-color: var(--background-light); /* Usa la variable de fondo */
+		transition: background-color 0.3s, color 0.3s; /* Transición suave */
+	}
+</style>
+
+<style is:global>
+	.container {
+		width: 90%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px 0;
+	}
+	.hidden{
+		display: none !important;
+	}
+    .tech-tag {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 4px 8px 4px 0;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .tech-tag.primary {
+        background-color: var(--primary-color);
+        color: var(--background-light);
+        font-weight: bold;
+        border: 1px solid var(--primary-color);
+    }
+
+    .tech-tag.secondary {
+		background-color: var(--light-gray);
+		color: var(--text-color);
+		border: 1px solid var(--border-color);
+		font-size: 0.85rem;
+		font-weight: 400;
+    }
+</style>

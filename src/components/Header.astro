@@ -1,0 +1,170 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header class="header">
+    <div class="container">
+            
+        <a class="logo" href="#">
+            <img src="logo.png" alt="Tu foto de perfil"> 
+        </a>
+        
+        <input type="checkbox" id="menu-toggle" class="menu-checkbox" aria-controls="main-nav">
+        <label for="menu-toggle" class="menu-toggle-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </label>
+        
+
+        
+        <nav class="nav">
+            <a href="#">Sobre mí</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Proyectos</a>
+            <a href="#contact">Contacto</a>
+            <ThemeToggle />
+        </nav>
+
+    </div>
+
+</header>
+<style>
+
+/* Header y Navegación */
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 35px;
+
+    background-color: var(--background-dark);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header .container {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.logo, .logo img{
+    z-index: 2;
+    height: 75px;
+}
+
+/* show/unshow menu */
+.menu-checkbox {
+    display: none;
+}
+
+.menu-toggle-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 4px 0px;
+    position: absolute;
+    top: 80px;
+
+    cursor: pointer;
+}
+.menu-toggle-button .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--primary-color); 
+}
+
+.menu-checkbox + .menu-toggle-button .bar:nth-child(1) {
+    transform: translateX(4px) rotate(45deg);
+}
+.menu-checkbox + .menu-toggle-button .bar:nth-child(2) {
+    transform: translateX(-4px) rotate(-45deg);
+}
+
+.menu-checkbox:checked + .menu-toggle-button .bar:nth-child(1) {    
+    transform:  translateY(225px) translateX(4px) rotate(-45deg);
+}
+.menu-checkbox:checked + .menu-toggle-button .bar:nth-child(2) {
+    transform:   translateY(225px) translateX(-4px) rotate(45deg);
+}
+
+
+.menu-checkbox:checked + .menu-toggle-button + .nav {
+    height: 225px;
+}
+
+.header > .nav{
+    overflow: hidden;
+}
+
+.menu-toggle-button .bar, .nav{
+    transition: all 1s;
+}
+
+.nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    overflow: hidden;
+    height: 0px;
+}
+
+.nav > button{
+    margin: 0px;
+    font-weight: bold;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+    transition: all 200ms;
+}
+
+@media (min-width: 769px){
+    .header{
+        padding-bottom: 0px;
+    }
+    .header .container{
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px 0px;
+    }
+    
+    .header .logo{  
+        position: relative;
+        right: 5px;
+        padding: 0px 5px;
+    }
+
+    .menu-toggle-button{
+        display: none;
+    }
+    .header .nav{
+        height: auto !important;
+    }
+    
+    .header .nav{
+        flex-direction: row;
+    }
+}
+</style>

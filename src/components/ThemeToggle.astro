@@ -1,0 +1,65 @@
+---
+
+
+---
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    type ThemeType = 'dark' | 'light';
+    
+    // Load setting
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const themeToggle = document.getElementById('theme-toggle') as HTMLElement ;
+    
+    const html = document.documentElement;
+    
+    // tool
+    const setTheme = (theme:ThemeType) => {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        themeToggle.textContent = theme === 'dark' ? 'Modo Claro ☀️' : 'Modo Oscuro 🌙';
+    };
+    
+    // init config
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+        setTheme(storedTheme);
+    } else if (prefersDark) {
+        setTheme('dark');
+    } else {
+        setTheme('light');
+    }
+
+    themeToggle.onclick = () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+    }
+});
+
+
+</script>
+
+<button id="theme-toggle" class="button-toggle" onclick={'onClickToggle'}>Modo Oscuro 🌙</button>
+
+<style>
+    /* Estilo del botón de cambio de tema */
+    .button-toggle {
+        background: none;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 8px 15px;
+        cursor: pointer;
+        border-radius: 20px;
+        margin-left: 0;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .button-toggle:hover {
+        background-color: var(--primary-color);
+        color: var(--background-light); /* Cambia color del texto en hover */
+    }
+    
+</style>
