@@ -1,0 +1,307 @@
+---
+import { Image } from 'astro:assets';
+import type CustomImageMetadata from "../types/CustomImageMetadata";
+
+interface Props {
+    images: Promise<CustomImageMetadata>[] | CustomImageMetadata[]
+}
+const { images } = Astro.props as Props;
+
+const imagesReady = await Promise.all(images);
+---
+<section class="slider-wrapper">
+    <div class="slider clickable">
+        <a class="prev clickable">&#10094;</a>
+
+        {
+            imagesReady.map((img, index)=>{
+                return <div class={"img-slider-wrapper fade" + (index+1 !== 1? ' hidden': '')}>
+                    <Image 
+                    src={img}
+                    alt={img.alt}
+                    width={img.width} 
+                    height={img.height}
+                    />
+                </div> 
+            })
+        }
+
+        <a class="next clickable">&#10095;</a>
+    </div>
+    
+    <div class="dots-wrapper" style="text-align:center; cursor: default;">
+        {
+            
+            imagesReady.map((img, index)=>{
+                return <span class={"dot" + (index+1===1? ' active': ' clickable')} data-id={index+1}></span> 
+            })
+        }
+    </div>
+</section>
+
+<style>
+	.clickable{
+        cursor: pointer;
+    }
+
+    .slider{
+        position: relative;
+        
+    }
+    .img-slider-wrapper{
+        display: flex;
+    }
+    .img-slider-wrapper img{
+        max-width: 100%;
+        height: auto;
+        margin: 0px;
+    }
+	/* Botones Anterior y Siguiente */
+	.prev, .next {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+		position: absolute;
+		top: 0%;
+        
+        height: 100%;
+		padding: 0px 3%;
+
+		color: white;
+		font-weight: bold;
+		font-size: 18px;
+		user-select: none;
+		
+        transition: 0.3s ease;
+		
+        border-radius: 0 3rem 3rem 0;
+		background-color: rgba(0,0,0,0.5); /* Fondo semitransparente */
+	}
+	.next {
+        right: 0;
+		border-radius: 3rem 0 0 3rem;
+    }
+    
+	/* Efecto al pasar el ratón */
+	.prev:hover, .next:hover {
+		background-color: rgba(0,0,0,0.8);
+	}
+
+	.dot {
+		height: 15px;
+		width: 15px;
+		margin: 0 2px;
+		background-color: #bbb;
+		border-radius: 50%;
+		display: inline-block;
+		transition: background-color 0.6s ease;
+	}
+
+	/* Estilo del punto activo */
+	.active, .dot:hover {
+		background-color: #717171;
+	}
+	.active{
+		cursor: default;
+	}
+</style>
+
+<script>
+    // falta pasar estado del slider entre el slider base y el de la modal, opciones:
+    //  1 - acoplar el base y el del modal, que los cambios en uno se reflejen
+    // automaticamente en el otro
+
+    // 2 - pasar indice de la foto que se esta viendo al abrir y al cerrar la modal
+    // Si bien esta opcion parece la optima en cuanto a rendimiento, 
+    // requiere modificar el componente modal para implementarle un onClose
+    // el cual obtenga el numero seleccionado y setee la modal principal con el
+    import setModalContent from "../scripts/modalController";
+
+    function getSubElements(father:Element){
+        
+        const slider = father.querySelector(':scope > .slider');
+        if (!slider){
+            return
+        }
+
+        const imgWrappers = slider.querySelectorAll(':scope > .img-slider-wrapper');
+        const prevBtn = slider.querySelector(':scope > .prev');
+        const nxtBtn = slider.querySelector(':scope > .next');
+
+        const dots = father.querySelectorAll(':scope > .dots-wrapper > .dot') as NodeListOf<HTMLElement>;
+
+        return {
+            slider,
+            imgWrappers,
+            prevBtn,
+            nxtBtn,
+            dots
+        }
+    }
+    function configureSlider(sliderWrapper:Element){
+        let slideIndex = 1;
+        
+        const slider = sliderWrapper.querySelector(':scope > .slider');
+        if (!slider){
+            return
+        }
+
+        const imgWrappers = slider.querySelectorAll(':scope > .img-slider-wrapper');
+        const prevBtn = slider.querySelector(':scope > .prev');
+        const nxtBtn = slider.querySelector(':scope > .next');
+
+        const dots = sliderWrapper.querySelectorAll(':scope > .dots-wrapper > .dot') as NodeListOf<HTMLElement>;
+
+            
+        // Slider tools
+
+        function showSlides(selected_id:number) {
+            if (!imgWrappers){
+                return
+            }
+
+            if (selected_id < 1) {
+                slideIndex = imgWrappers.length
+            }
+            
+            if (selected_id > imgWrappers.length) {
+                slideIndex = 1
+            }
+
+            for (let imgWrapper of imgWrappers) {
+                imgWrapper.classList.add("hidden");  
+            }
+            for (let dot of dots) {
+                dot.classList.remove("active");
+            }
+
+            // Muestra la diapositiva actual y añade la clase 'active' al punto
+            imgWrappers[slideIndex-1].classList.remove("hidden");  
+            dots[slideIndex-1].classList.add("active");
+        }
+        function plusSlides(selected_id:number) {
+            showSlides(slideIndex += selected_id);
+        }
+        function currentSlide(selected_id:number) {
+            showSlides(slideIndex = selected_id);
+        }
+
+        // Slider prev and next btn
+        prevBtn?.addEventListener('click', (event)=>{
+            event.stopPropagation();
+            plusSlides(-1);
+        });
+        
+        nxtBtn?.addEventListener('click', (event)=>{
+            event.stopPropagation();
+            plusSlides(1);
+        });
+
+        // Slider dots
+        for (let dot of dots){
+            const dot_id = Number(dot.dataset.id);
+            dot.addEventListener('click', ()=>{
+                currentSlide(dot_id);
+            })
+        }
+
+        return {
+            slider,
+            imgWrappers,
+            prevBtn,
+            nxtBtn,
+            dots
+        }
+    }
+    const sliderWrappers = document.getElementsByClassName('slider-wrapper');
+
+    for(let sliderWrapper of sliderWrappers){
+        let slideIndex = 1;
+
+        // clone
+        const cloneSliderWrapper = sliderWrapper.cloneNode(true) as HTMLElement;
+        
+        // get vars
+        const sliderElements = getSubElements(sliderWrapper)
+        if (!sliderElements){
+            continue
+        }
+        const {slider, imgWrappers, prevBtn, nxtBtn, dots} = sliderElements
+
+        const cloneSliderElements = getSubElements(cloneSliderWrapper)
+        if (!cloneSliderElements){
+            continue
+        }
+        const {slider:cloneSlider, imgWrappers:cloneImgWrappers, 
+            prevBtn:clonePrevBtn, nxtBtn:cloneNxtBtn, dots:cloneDots} = cloneSliderElements
+
+        // Slider tools
+
+        function showSlides(selected_id:number) {
+            if (selected_id < 1) {
+                slideIndex = imgWrappers.length
+            }
+            
+            if (selected_id > imgWrappers.length) {
+                slideIndex = 1
+            }
+
+            for (let index in Object.keys(imgWrappers)) {
+                imgWrappers[index].classList.add("hidden");
+                cloneImgWrappers[index].classList.add("hidden");
+            }
+            for (let index in Object.keys(dots)) {
+                dots[index].classList.remove("active");
+                cloneDots[index].classList.remove("active");
+            }
+
+            // Muestra la diapositiva actual y añade la clase 'active' al punto
+            imgWrappers[slideIndex-1].classList.remove("hidden");  
+            cloneImgWrappers[slideIndex-1].classList.remove("hidden");  
+            dots[slideIndex-1].classList.add("active");
+            cloneDots[slideIndex-1].classList.add("active");
+        }
+        function plusSlides(selected_id:number) {
+            showSlides(slideIndex += selected_id);
+        }
+        function currentSlide(selected_id:number) {
+            showSlides(slideIndex = selected_id);
+        }
+
+
+
+        // Slider prev and next btn
+        const handlePrev = (event:Event)=>{
+            event.stopPropagation();
+            plusSlides(-1);
+        }
+        prevBtn?.addEventListener('click', handlePrev);
+        clonePrevBtn?.addEventListener('click', handlePrev);
+
+        const handleNxt = (event:Event)=>{
+            event.stopPropagation();
+            plusSlides(1);
+        }
+        nxtBtn?.addEventListener('click', handleNxt);
+        cloneNxtBtn?.addEventListener('click', handleNxt);
+
+        // Slider dots
+        for (let index in Object.keys(dots)){
+            const dot_id = Number(dots[index].dataset.id);
+            const handleDots = ()=>{
+                currentSlide(dot_id);
+            }
+            dots[index].addEventListener('click', handleDots)
+            cloneDots[index].addEventListener('click', handleDots)
+        }
+
+        
+        slider.addEventListener('click', (event)=>{
+            setModalContent(cloneSliderWrapper)
+        });
+        
+        cloneSlider.classList.remove('clickable');
+        
+    };
+    
+</script>
