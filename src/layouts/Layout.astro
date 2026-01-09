@@ -27,6 +27,11 @@
 		--background-dark: #212529; /* Fondo oscuro (header/footer) */
 		--light-gray: #e9ecef; /* Separadores */
 		--border-color: #dee2e6;
+
+		--grey-op:rgb(33, 37, 41, 0.5);
+
+		--success: var(--primary-color);
+		--danger: #e74c3c;
 		
 	}
 
@@ -40,6 +45,11 @@
 		--background-dark: #1f1f1f; /* Header/Footer */
 		--light-gray: #343a40; /* Separadores */
 		--border-color: #495057;
+
+		--grey-op:rgb(33, 37, 41, 0.7);
+
+		--success: var(--primary-color);
+		--danger: #e74c3c;
 	}
 
 	/* Estilos Globales y Tipografía */
@@ -91,5 +101,9 @@
 		border: 1px solid var(--border-color);
 		font-size: 0.85rem;
 		font-weight: 400;
+    }
+	
+    .danger-text{
+        color: var(--danger) !important;
     }
 </style>
