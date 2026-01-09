@@ -1,57 +1,568 @@
 ---
 ---
-
 <section id="contact" class="contact">
     <div class="container">
         <h2>✉️ Contacto</h2>
-        <p>Estoy disponible para nuevos proyectos y oportunidades. Conéctate conmigo mediante:</p>
-        <div class="contact-links">
-            <a href="mailto:guidodorego@gmail.com" class="contact-button">Email</a>
-            <a href="https://linkedin.com/in/guido-do-rego" target="_blank" class="contact-button">LinkedIn</a>
-            <a href="https://github.com/GuidoGdR" target="_blank" class="contact-button">GitHub</a>
-        </div>
+            
+        <form class="contact-form">
+            
+            <label>Correo Electrónico:
+                <section class="email-error error-box">
+                    <div>
+                        <p>
+                        </p>
+                    </div>
+                </section>
+                <input type="text" class="email-input" name="email">
+            </label>
+            
+            <label>
+                Mensaje:
+                <section class="message-error error-box">
+                    <div>
+                        <p>
+                        </p>
+                    </div>
+                </section>
+                <textarea class="message-input" name="message"></textarea>
+            </label>
+            
+
+            <div class="form-buttons">
+                <button type="button" id="send-msg">Enviar Mensaje</button>
+
+                    <div
+                    class="cf-turnstile"
+                    data-sitekey="0x4AAAAAACKyRgHiL0U54M4M"
+                    data-theme="dark"
+                    data-size="normal"
+                    data-callback="onSuccess"
+                    ></div>
+
+            </div>
+
+            <div class="loader-container hidden">
+                <p id="close-loader" class="hidden">X</p>
+                
+                <section class="spinner-wrapper">
+                    <div class="spinner">
+                        <div class="checkmark"></div>
+                        <div class="cross"></div>
+                    </div>
+                    <p class="spinner-message">Cargando...</p>
+                </section>
+                <p class="result-message">
+                    <b>De: </b><span class="from"></span><br>
+                    <br>
+                    <b>Mensaje: </b><span class="message"></span>
+                </p>
+            </div>
+
+        </form>
     </div>
+    
 </section>
 
-<style>
+<script>
+let turnstileToken: string | null = null;
+(window as any).onSuccess = function(token: string): void {
+    turnstileToken = token;
+};
 
+function validateEmail(email:string): string{
+    if (!email) {
+        return 'Campo requerido.';
+    }
 
-/* Sección de Contacto */
-.contact {
-    padding: 60px 0;
-    text-align: center;
-    background-color: var(--light-gray);
+    const regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+    if (!regex.test(email)) {
+        
+        return 'Formato invalido.';
+    }
+    
+    return '';
+}
+function validateMessage(message:string){
+    if (!message) {
+        return {safe: undefined, message:'Campo requerido.'};
+    }
+
+    if (message.length < 10) {
+        return {safe: undefined, message:'Minimo 10 caracteres.'};
+    }
+    if (message.length > 10000) {
+        return {safe: undefined, message:'Maximo 10,000 caracteres.'};
+    }
+    if (message.includes('\0')) {
+        return {safe: undefined, message:'El caracter nulo no esta permitido.'};
+    }
+
+    return {
+        safe: message.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+        message:''
+    };
 }
 
+const emailInput = document.querySelector('.email-input') as HTMLInputElement;
+const messageInput = document.querySelector('.message-input') as HTMLTextAreaElement;
+
+const emailErrorBox = document.getElementsByClassName('email-error')[0];
+const messageErrorBox = document.getElementsByClassName('message-error')[0];
+
+function setError(errorBox: Element, input:Element, error:string|undefined):void{
+    const p = errorBox.querySelector('div>p');
+    if (error){
+        input.classList.add('danger');
+        errorBox.classList.add('is-visible');
+        if (p){
+            p.textContent = error;
+        }
+        return;
+    }
+
+    input.classList.remove('danger');
+    errorBox.classList.remove('is-visible');
+}
+
+const loaderContainer = document.getElementsByClassName('loader-container')[0]
+const spinnerWrapper = document.querySelector('.spinner-wrapper');
+const spinner = document.querySelector('.spinner');
+const spinnerMessage = document.querySelector('.spinner-message');
+const resultBox = document.querySelector('.result-message');
+
+const closeLoader = document.getElementById('close-loader');
+closeLoader?.addEventListener('click', ()=>{
+    
+    loaderContainer.classList.add('hidden');
+    spinner?.classList.remove('load-success');
+    
+    if (spinnerMessage){
+        spinnerMessage.textContent = 'Cargando...'
+    }
+    
+    resultBox?.classList.remove('op');
+    closeLoader.classList.add('hidden');
+    spinnerWrapper?.classList.remove('to-top')
+
+})
+
+async function sendData(email: string, msg: string, token: string) {
+    
+    // 1. Mostrar el cargando
+    loaderContainer.classList.remove('hidden');
+
+    try {
+        const minTime = new Promise(resolve => setTimeout(resolve, 700));
+
+        // 2. Esperar la respuesta del servidor
+        
+        const [response] = await Promise.all([
+            fetch('https://api.guidodorego.com/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 'email': email, 'message': msg, 'token':token })
+            }),
+            minTime
+        ]);
+        
+        //const responseData = await response.json();
+
+        if (!response.ok) {
+            throw new Error('Error al enviar.');
+        }
+
+        spinnerWrapper?.classList.add('to-top')
+
+        spinner?.classList.add('load-success');
+        if (spinnerMessage){
+            spinnerMessage.textContent = '¡Exito!'
+        }
+
+        closeLoader?.classList.remove('hidden');
+        
+        const resultFrom = document.querySelector('.result-message > .from');
+        if (resultFrom) {
+            resultFrom.textContent = email
+        }
+        const resultMessage = document.querySelector('.result-message > .message');
+        if (resultMessage) {
+            resultMessage.textContent = msg
+        }
+        
+        resultBox?.classList.add('op');
+        
+
+    } catch (error:any) {
+        // ERROR: Convertir en X roja
+        console.error(error);
+        spinner?.classList.add('load-error');
+        
+        if (spinnerMessage){
+            spinnerMessage.textContent = error.message as string
+            spinnerMessage.classList.add('danger-text')
+        }
+
+        // Esperar 2 segundos para que el usuario vea la X y luego ocultar
+        setTimeout(() => {
+            loaderContainer.classList.add('hidden');
+            spinner?.classList.remove('load-error');
+            if (spinnerMessage){
+                spinnerMessage.textContent = 'Cargando...'
+                spinnerMessage.classList.remove('danger-text')
+            }
+
+        }, 1500);
+    }
+}
+
+function onSubmit(){
+    const email = emailInput.value;
+    const messageUnsafe = messageInput.value;
+    
+    const email_error:string = validateEmail(email);
+    setError(emailErrorBox, emailInput, email_error);
+    
+    const {safe:message, message:message_error } = validateMessage(messageUnsafe);
+    setError(messageErrorBox, messageInput, message_error);
+    
+    if (email_error || message_error){
+        return
+    }
+    if (!turnstileToken){
+        console.log('"Im human" required.')
+        return
+    }
+
+    sendData(email as string, message as string, turnstileToken);
+}
+const sendBtn:HTMLButtonElement | null = document.getElementById('send-msg') as HTMLButtonElement | null;
+sendBtn?.addEventListener('click', onSubmit);
+
+const contactForm:HTMLButtonElement | null = document.getElementsByClassName('contact-form')[0] as HTMLButtonElement | null;
+contactForm?.addEventListener('submit', (event)=>{
+    event.preventDefault();
+    onSubmit();
+});
+
+
+</script>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
+
+<style>
+/*
+* --------------------------------
+* Estilos para la Sección de Contacto
+* --------------------------------
+*/
+
+/* Contenedor principal de la sección */
+.contact {
+    padding: 60px 20px;
+    background-color: var(--secondary-color); /* Fondo claro para destacar */
+    font-family: Arial, sans-serif;
+}
+
+/* Título de la sección */
 .contact h2 {
     font-size: 2rem;
     margin-bottom: 20px;
     color: var(--text-color);
 }
 
-.contact p {
-    margin-bottom: 30px;
-}
+/*
+ * --------------------------------
+ * Estilos del Formulario de Contacto
+ * --------------------------------
+ */
 
-.contact-links {
+.contact-form {
+    position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     gap: 20px;
+    
+    padding: 30px;  
+    
+    background-color: var(--background-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
-.contact-button {
-    display: inline-block;
-    padding: 12px 30px;
-    background-color: var(--background-dark);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: background-color 0.3s, transform 0.2s;
+/* Estilo para las etiquetas (labels) */
+.contact-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: var(--text-color);
+    font-size: 1em;
 }
 
-.contact-button:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
+/* Estilo para campos de entrada de texto y textarea */
+.email-input,
+.message-input {
+    background-color: var(--background-light);
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    font-size: 1em;
+    transition: border-color 0.3s;
+    color: var(--text-color);
+
 }
 
+.email-input:focus,
+.message-input:focus {
+    border-color: var(--primary-color); /* Color de enfoque azul */
+    outline: none; /* Eliminar el contorno por defecto del navegador */
+}
+
+.email-input.danger,
+.message-input.danger{
+    border-color: var(--danger) !important;
+}
+/* Estilo específico para el textarea (mensaje) */
+.contact-form textarea {
+    resize: vertical; /* Permitir redimensionar solo verticalmente */
+    min-height: 150px;
+}
+
+.error-box{
+    height: 0px;
+    /*  55px; */
+    overflow: hidden;
+    
+    transition: height 0.3s ease-out;
+}
+.error-box.is-visible {
+    height: 55px;
+}
+
+.error-box > div{
+    width: fit-content;
+    line-height: 6px;
+    
+    padding: 0px 10px;
+    border: 1px solid var(--danger);
+    font-size: 15px;
+    border-radius: 8px;
+    /* 
+    */
+    
+
+    color: var(--danger);
+    background-color: transparent;
+}
+
+.error-box > div::before {
+    content: "";
+    position: relative;
+    
+    top: 59px;
+    margin-left: 5px;
+    /* Construcción del triángulo */
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid var(--danger); /* Color igual al fondo del div */
+}
+
+.form-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo para el botón de enviar */
+#send-msg {
+    background-color: var(--primary-color); /* Color primario azul */
+    color: var(--background-light);
+    padding: 15px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+#send-msg:hover {
+    background-color: var(--intermediate-color);
+    box-shadow: 1px 1px 10px var(--primary-color);
+}
+</style>
+
+<style>
+    .loader-container {
+        position: absolute;
+        top: 0; 
+        left: 0;
+        height: calc(100% - 40px);
+        width: 100%;
+        
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: 20px 0px;
+        flex-direction: column;
+        gap: 5px;
+        
+        background-color: var(--grey-op);
+        border-radius: 8px;
+    }
+
+    #close-loader{
+        position: absolute;
+        top: -20px;
+        right: 2%;
+        cursor: pointer;
+        color: var(--text-color);
+        font-size: 25px;
+        font-weight: bold;
+        z-index: 1;
+    }
+
+    .spinner-wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        
+        position: relative;
+        top: calc(50% - 25px - 20px);
+
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .spinner-wrapper.to-top{
+        transform: translateY(calc(-110% - 25px - 20px));
+    }
+
+    .spinner {
+        width: 50px;
+        min-height: 50px;
+        border: 5px solid rgba(0, 0, 0, 0.1);
+        border-left-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Clase que activaremos con JS al terminar */
+    .load-success {
+        animation: none;
+        color: var(--success);
+        
+        border: 5px solid var(--primary-color);
+    }
+
+    /* Dibujando el tilde */
+    .checkmark {
+        display: none;
+    }
+
+    .load-success .checkmark {
+        display: block;
+        position: absolute;
+        top: 25px; /* Ajuste manual según tamaño */
+        left: 12px;
+        width: 12px;
+        height: 22px;
+        border: solid var(--success);
+        border-width: 0 4px 4px 0;
+        transform: rotate(45deg) translate(-50%, -50%);
+        transform-origin: center;
+        animation: check-draw 0.4s ease-out;
+    }
+    
+    @keyframes check-draw {
+        0% { height: 0; width: 0; opacity: 0; }
+        50% { height: 0; width: 12px; opacity: 1; }
+        100% { height: 22px; width: 12px; opacity: 1; }
+    }
+
+
+    /* --- Estado de Error (X Roja) --- */
+    .load-error {
+        animation: none;
+        border-color: var(--danger) !important; /* Rojo */
+    }
+
+    .cross {
+        display: none;
+    }
+
+    .load-error .cross {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Las dos líneas de la X */
+    .load-error .cross::before,
+    .load-error .cross::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 25px;
+        height: 4px;
+        background-color: var(--danger);
+        border-radius: 2px;
+        animation: cross-draw 0.3s ease-out forwards;
+    }
+
+    .load-error .cross::before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .load-error .cross::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    @keyframes cross-draw {
+        0% { scale: 0; opacity: 0; }
+        100% { scale: 1; opacity: 1; }
+    }
+    .spinner-message{
+        
+        margin: 0px;
+        padding: 0px;
+        color: var(--success);
+        font-size: 20px;
+        font-weight: bold;
+
+    }
+
+    .result-message{
+        margin: 0px;
+        background-color: var(--background-light);
+        width: 90%;
+        max-height: 65%;
+        overflow-y: auto;
+        overflow-wrap: break-word;
+        padding: 5px 2%;
+        border-radius: 8px;
+
+        opacity: 0;
+        
+        transition: opacity 0.6s ease-out 0.6s;
+    }
+    .result-message.op{
+        opacity: 1;
+    }
 </style>
