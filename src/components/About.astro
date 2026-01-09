@@ -7,22 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<section id="about" class="hero">
+<section id="about">
     <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title">Guido do Rego</h1>
-            <h2 class="hero-title">Desarrollador Full-Stack</h2>
+        <div class="title-and-picture">
+            <div class="title-and-description">
+                <h1 class="about-title">Guido do Rego</h1>
+                <h2 class="about-title">Desarrollador Full-Stack</h2>
 
-            <p class="hero-subtitle">
-                Sé programar en Python desde el 2019, poseo conocimientos en múltiples áreas de la informática, especializado en el back-end.
-                <br>
-                También poseo conocimientos en contenedores, front-end, testing, aws, entre otras cosas.
-                <br>
-                Desde chico soy aficionado a la tecnología y por esto es que estoy aprendiendo constantemente forma autodidacta.
-                <br>
-            </p>
-            
-            <div class="main-tools">
+                <p class="about-description">
+                    Sé programar en Python desde el 2019, poseo conocimientos en múltiples áreas de la informática, especializado en el back-end.
+                    <br>
+                    También poseo conocimientos en contenedores, front-end, testing, aws, entre otras cosas.
+                    <br>
+                    Desde chico soy aficionado a la tecnología y por esto es que estoy aprendiendo constantemente forma autodidacta.
+                    <br>
+                </p>
+            </div>
+            <img src="avatar.jpeg" alt="Tu foto de perfil" class="profile-img"> 
+        </div>
+
+        <div class="subsections-wraper" >
+            <div class="subsection tools">
                 <span class="tech-tag primary">Python</span>
                 <span class="tech-tag primary">Go</span>
                 <span class="tech-tag primary">JavaScript</span>
@@ -30,64 +35,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="tech-tag primary">AWS</span>
             </div>
 
-            <a href="#projects" class="button">Ver Proyectos</a>
+            <div class="subsection networks">
+                <a href="https://github.com/GuidoGdR" target="_blank" class="tech-tag contact-button">GitHub</a>
+                <a href="https://linkedin.com/in/guido-do-rego" target="_blank" class="tech-tag contact-button">LinkedIn</a>
+            </div>        
         </div>
-        <img src="avatar.jpeg" alt="Tu foto de perfil" class="profile-img"> 
+
+        <a href="#projects" class="button">Ver Proyectos</a>
     </div>
 </section>
 
 <style>
-    .hero {
+    
+    #about {
         background-color: var(--secondary-color);
-        padding-bottom: 80px;
+    }
+    #about > .container {
+        padding-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 10px;
+    }
+    #about .title-and-picture{
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+    }
+
+    #about .title-and-description {
+        text-align: left;
+        max-width: 600px;
+        text-align: center;
+    }
+    
+    .about-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: var(--text-color);
         text-align: center;
     }
 
-    .hero .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 40px;
-    }
-
-    .hero-content {
-        text-align: left;
-        max-width: 600px;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-        color: var(--text-color); /* Usa variable de texto */
-    }
-
-    .hero-subtitle {
+    .about-description {
         font-size: 1.25rem;
         margin-bottom: 20px;
-        color: var(--text-color); /* Usa variable de texto */
-        opacity: 0.8;
-    }
-
-    .main-tools {
-        /* Contenedor del Stack */
-        margin-top: 30px;
-        margin-bottom: 30px;
-        padding: 15px;
-        border-left: 4px solid var(--primary-color);
-        background-color: var(--background-light); 
-        border-radius: 5px;
-    }
-
-    .main-tools h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
         color: var(--text-color);
-        font-size: 1.2rem;
-    }
-
-    /* Ajuste del botón principal para que no se pegue al stack */
-    .hero-content .button {
-        margin-top: 15px;
+        opacity: 0.8;
     }
 
     .profile-img {
@@ -99,8 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
-    
+    .subsections-wraper{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        gap: 10px;
+    }
+
+    .subsection{
+        padding: 15px;
+        background-color: var(--background-light); 
+        border-radius: 5px;
+        border-left: 4px solid var(--primary-color);
+    }
+
+
     .button {
+        margin-top: 40px;
         display: inline-block;
         padding: 10px 25px;
         background-color: var(--primary-color);
@@ -114,34 +128,64 @@ document.addEventListener('DOMContentLoaded', () => {
     .button:hover {
         background-color: var(--intermediate-color);
     }
-    @media (max-width: 768px) {
+
+    
+    .tech-tag {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 4px 8px 4px 0;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .tech-tag.primary {
+        background-color: var(--primary-color);
+        color: var(--background-light);
+        font-weight: bold;
+        border: 1px solid var(--primary-color);
+    }
+
+    .contact-button {
+        background-color: var(--background-dark);
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .contact-button:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+
+
+    @media (min-width: 768px) {
         
-        .hero .container {
-            flex-direction: column;
-            text-align: center;
+        #about > .container {
+            align-items: start;
+        }
+        #about .title-and-picture{
+            flex-direction: row;
+            
         }
         
-        .hero-content {
-            text-align: center;
-            order: 2;
+        #about .title-and-description {
+            text-align: start;
+        }
+        .about-title {
+            text-align: start;
+            font-size: 2.5rem;
         }
 
-        .profile-img {
-            margin-bottom: 20px;
-            order: 1;
+        .subsections-wraper{
+            flex-direction: row;
         }
 
-        .hero-title {
-            font-size: 2rem;
-        }
+        .subsection.networks{
+            border-left: none;
+            border-right: 4px solid var(--primary-color);
 
-        .project-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .contact-links {
-            flex-direction: column;
-            gap: 15px;
         }
     }
 
