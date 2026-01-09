@@ -63,11 +63,15 @@
     
 </section>
 
+<script is:inline>
+  window.turnstileToken = null; 
+
+  window.onSuccess = function(token) {
+      window.turnstileToken = token;
+  };
+</script>
+
 <script>
-let turnstileToken: string | null = null;
-(window as any).onSuccess = function(token: string): void {
-    turnstileToken = token;
-};
 
 function validateEmail(email:string): string{
     if (!email) {
@@ -228,6 +232,8 @@ function onSubmit(){
     if (email_error || message_error){
         return
     }
+
+    const turnstileToken:string = (window as any).turnstileToken;
     if (!turnstileToken){
         console.log('"Im human" required.')
         return
@@ -247,7 +253,7 @@ contactForm?.addEventListener('submit', (event)=>{
 
 </script>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <style>
 /*
