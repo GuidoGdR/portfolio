@@ -8,8 +8,6 @@ const projects = await getCollection('projects')
 
 function getPorjectsImgaes(){
     
-    // 💡 CAMBIO CLAVE: Usa un patrón más amplio para que Vite/Astro pueda encontrar todas las imágenes.
-    // El '*' en la carpeta representa CUALQUIER nombre de carpeta/slug de proyecto.
     const allProjectsImages = import.meta.glob<{default:ImageMetadata}>( '../assets/projects/*/*.{png,jpg,jpeg,gif,webp}'); 
 
     const result: {[key:string]: Promise<CustomImageMetadata>[]} = {}
@@ -17,14 +15,10 @@ function getPorjectsImgaes(){
     projects.forEach((project => {
         const projectImages: Promise<CustomImageMetadata>[] = [];
         
-        // El patrón para encontrar las imágenes del proyecto específico
-        // Asegúrate de que los slashes sean correctos para la comparación de claves.
         const reg_exp = new RegExp(`^\\.\\.\\/assets\\/projects\\/${project.slug}\\/[^\\/]+\\.(png|jpg|jpeg|gif|webp)$`); 
         
-        // Itera sobre las claves (rutas) que Vite/Astro encontró.
         for(const key in allProjectsImages) {
             if( reg_exp.test(key) ){
-                // Esta función importada dinámicamente retorna una PROMESA de ImageMetadata
                 const imageImportPromise = allProjectsImages[key]().then(module => {
 
                     const start = module.default.src.lastIndexOf('/') + 1
