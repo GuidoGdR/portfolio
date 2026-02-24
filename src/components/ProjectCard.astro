@@ -13,6 +13,15 @@ const { title, description, images, tecnologies, repoUrl } = Astro.props as Prop
 
 const { Content: Description } = await description
 
+function formatSTRList(lst: string[]){
+    return lst.map((element, index)=>{
+        if(index === 0){
+            return element
+        }
+        return ` ${element}`
+    })
+}
+
 ---
 
 <div class="project-card">
@@ -27,7 +36,7 @@ const { Content: Description } = await description
     </section>
  
     <section>
-        <p class="tech-stack"><b>Tecnologías:</b> {tecnologies.normal} <b>{tecnologies.important}</b></p>
+        <p class="tech-stack"><b>Tecnologías:</b> {formatSTRList(tecnologies.normal)} <b>{formatSTRList(tecnologies.important)}</b></p>
 
         <section>
             <a href={repoUrl} target="_blank" class="project-link">Ver Código</a>
