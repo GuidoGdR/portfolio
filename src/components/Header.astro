@@ -92,11 +92,17 @@ import ThemeToggle from './ThemeToggle.astro';
     transform: translateX(-4px) rotate(-45deg);
 }
 
+.menu-checkbox:checked + .menu-toggle-button{    
+    transform:  translateY(225px);
+}
 .menu-checkbox:checked + .menu-toggle-button .bar:nth-child(1) {    
-    transform:  translateY(225px) translateX(4px) rotate(-45deg);
+    transform: translateX(4px) rotate(-45deg);
+}
+.menu-checkbox:checked + .menu-toggle-button {
+    transform: translateY(225px);
 }
 .menu-checkbox:checked + .menu-toggle-button .bar:nth-child(2) {
-    transform:   translateY(225px) translateX(-4px) rotate(45deg);
+    transform: translateX(-4px) rotate(45deg);
 }
 
 
@@ -108,7 +114,7 @@ import ThemeToggle from './ThemeToggle.astro';
     overflow: hidden;
 }
 
-.menu-toggle-button .bar, .nav{
+.menu-toggle-button .bar, .nav, .menu-toggle-button{
     transition: all 1s;
 }
 
