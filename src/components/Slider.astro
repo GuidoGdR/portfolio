@@ -33,7 +33,7 @@ const imagesReady = await Promise.all(images);
         {
             
             imagesReady.map((img, index)=>{
-                return <span class={"dot  clickable " + (index+1===1? 'active': '')} data-id={index+1}></span> 
+                return <span class={"dot  clickable" + (index+1===1? ' active': '')} data-id={index+1}></span> 
             })
         }
     </div>
