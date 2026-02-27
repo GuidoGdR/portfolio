@@ -8,10 +8,8 @@
             
             <label>Correo Electrónico:
                 <section class="email-error error-box">
-                    <div>
-                        <p>
-                        </p>
-                    </div>
+                    <p>
+                    </p>
                 </section>
                 <input type="text" class="email-input" name="email">
             </label>
@@ -19,10 +17,8 @@
             <label>
                 Mensaje:
                 <section class="message-error error-box">
-                    <div>
-                        <p>
-                        </p>
-                    </div>
+                    <p>
+                    </p>
                 </section>
                 <textarea class="message-input" name="message"></textarea>
             </label>
@@ -114,7 +110,7 @@ const emailErrorBox = document.getElementsByClassName('email-error')[0];
 const messageErrorBox = document.getElementsByClassName('message-error')[0];
 
 function setError(errorBox: Element, input:Element, error:string|undefined):void{
-    const p = errorBox.querySelector('div>p');
+    const p = errorBox.querySelector('p');
     if (error){
         input.classList.add('danger');
         errorBox.classList.add('is-visible');
@@ -198,11 +194,10 @@ async function sendData(email: string, msg: string, token: string) {
 
     } catch (error:any) {
         // ERROR: Convertir en X roja
-        console.error(error);
         spinner?.classList.add('load-error');
         
         if (spinnerMessage){
-            spinnerMessage.textContent = error.message as string
+            spinnerMessage.textContent = 'Error al enviar.';
             spinnerMessage.classList.add('danger-text')
         }
 
@@ -346,14 +341,20 @@ contactForm?.addEventListener('submit', (event)=>{
     overflow: hidden;
     
     transition: height 0.3s ease-out;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: 3px;
 }
 .error-box.is-visible {
-    height: 55px;
+    height: 45px;
 }
 
-.error-box > div{
+.error-box > p{
     width: fit-content;
-    line-height: 6px;
+    line-height: 20px;
+    min-height: 30px;
     
     padding: 0px 10px;
     border: 1px solid var(--danger);
@@ -362,17 +363,21 @@ contactForm?.addEventListener('submit', (event)=>{
     /* 
     */
     
-
+    
     color: var(--danger);
     background-color: transparent;
+
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.error-box > div::before {
+.error-box::after {
     content: "";
-    position: relative;
-    
-    top: 59px;
-    margin-left: 5px;
+
+    margin-left: 15px;
     /* Construcción del triángulo */
     width: 0;
     height: 0;
@@ -380,6 +385,22 @@ contactForm?.addEventListener('submit', (event)=>{
     border-right: 7px solid transparent;
     border-top: 10px solid var(--danger); /* Color igual al fondo del div */
 }
+
+/*
+.error-box > div::after {
+    content: "";
+    position: inherit;
+    
+    margin-top: 20px;
+    margin-left: 5px;
+    
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid var(--danger); 
+}
+*/
 
 .form-buttons{
     display: flex;
@@ -412,7 +433,7 @@ contactForm?.addEventListener('submit', (event)=>{
         position: absolute;
         top: 0; 
         left: 0;
-        height: calc(100% - 40px);
+        height: 100%;
         width: 100%;
         
         display: flex;
