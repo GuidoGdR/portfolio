@@ -52,13 +52,6 @@
 		--danger: #e74c3c;
 	}
 
-	/* Estilos Globales y Tipografía */
-	* {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
 	body {
 		font-family: 'Roboto', sans-serif;
 		color: var(--text-color);
@@ -68,6 +61,26 @@
 	}
 </style>
 
+<!-- Base -->
+<style is:global>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	a{
+        color: var(--text-color);
+        text-decoration: none;
+	}
+	input[type="button"] {
+		color: var(--text-color);
+		border: none;
+	}
+	input[type="button"]:hover {
+		cursor: pointer;
+	}
+</style>
+
+<!-- Class -->
 <style is:global>
 	.container {
 		width: 90%;
