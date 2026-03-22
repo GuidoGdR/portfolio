@@ -109,7 +109,7 @@ const messageInput = document.querySelector('.message-input') as HTMLTextAreaEle
 const emailErrorBox = document.getElementsByClassName('email-error')[0];
 const messageErrorBox = document.getElementsByClassName('message-error')[0];
 
-function setError(errorBox: Element, input:Element, error:string|undefined):void{
+function setFieldError(errorBox: Element, input:Element, error:string|undefined):void{
     const p = errorBox.querySelector('p');
     if (error){
         input.classList.add('danger');
@@ -219,10 +219,10 @@ function onSubmit(){
     const messageUnsafe = messageInput.value;
     
     const email_error:string = validateEmail(email);
-    setError(emailErrorBox, emailInput, email_error);
+    setFieldError(emailErrorBox, emailInput, email_error);
     
     const {safe:message, message:message_error } = validateMessage(messageUnsafe);
-    setError(messageErrorBox, messageInput, message_error);
+    setFieldError(messageErrorBox, messageInput, message_error);
     
     if (email_error || message_error){
         return
