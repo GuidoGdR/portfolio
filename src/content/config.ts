@@ -8,7 +8,8 @@ const projects = defineCollection({
             normal: z.array(z.string()),
             important: z.array(z.string())
         }),
-        repoUrl: z.string()
+        repoUrl: z.string(),
+        demo: z.string().optional(),
     })
 })
 
